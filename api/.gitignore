@@ -1,0 +1,35 @@
+# API Service specific patterns
+# (Common Node.js patterns are handled by root .gitignore)
+
+# === API Specific ===
+# File uploads
+uploads/
+temp-uploads/
+user-files/
+
+# Request/Response logs
+api-logs/
+request-logs/
+
+# Generated documentation
+api-docs/
+swagger-output/
+
+# SSL certificates (if storing locally)
+certs/
+ssl/
+
+# API testing
+api-test-results/
+postman-collections/local/
+insomnia-exports/
+
+# Rate limiting data
+rate-limit-cache/
+
+# Session storage (if using file-based sessions)
+sessions/
+
+# Temporary files
+*.tmp
+*.temp

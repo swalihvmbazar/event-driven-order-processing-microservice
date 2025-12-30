@@ -1,0 +1,34 @@
+# Worker Service specific patterns
+# (Common Node.js patterns are handled by root .gitignore)
+
+# === Worker Specific ===
+# Job processing data
+jobs/
+queue-data/
+processing/
+failed-jobs/
+
+# Worker logs
+worker-logs/
+processing-logs/
+
+# Temporary processing files
+temp-processing/
+*.processing
+
+# Message backups
+message-backups/
+stream-data/
+
+# Performance metrics
+metrics/
+performance-data/
+
+# Worker state
+worker-state/
+checkpoints/
+
+# Temporary files
+*.tmp
+*.temp
+*.lock

@@ -1,0 +1,83 @@
+# Database specific patterns
+# (General patterns are handled by root .gitignore)
+
+# === Database Files ===
+# SQLite databases
+*.sqlite
+*.sqlite3
+*.db
+*.sqlite-journal
+*.sqlite-wal
+*.sqlite-shm
+
+# Database backups
+*.sql.backup
+*.bak
+*.dump
+*.sql.gz
+*.sql.zip
+backups/
+
+# Database logs
+*.log
+*.err
+*.out
+query-logs/
+error-logs/
+
+# === Migration & Schema ===
+# Migration state
+migration-state/
+migration-logs/
+rollback-scripts/
+
+# Generated schema documentation
+schema-docs/
+erd-diagrams/
+
+# === Data & Initialization ===
+# Test data
+test-data/
+sample-data/
+seed-data/local/
+
+# Data import/export
+import/
+export/
+data-staging/
+
+# === Docker Database Volumes ===
+# Volume mount data (if using bind mounts)
+data/
+mysql-data/
+postgres-data/
+redis-data/
+mongo-data/
+
+# === Performance & Monitoring ===
+# Query analysis
+query-analysis/
+performance-logs/
+slow-query-logs/
+
+# Database monitoring
+db-metrics/
+health-checks/
+
+# === Configuration ===
+# Database configuration overrides
+my.cnf.local
+postgresql.conf.local
+*.local.conf
+
+# SSL certificates for database connections
+db-certs/
+ca-cert.pem
+client-cert.pem
+client-key.pem
+
+# === Temporary Files ===
+*.tmp
+*.temp
+*.lock
+*.pid
