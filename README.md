@@ -1,8 +1,8 @@
-# Event-Driven Orders System - PRODUCTION READY ✨
+# Event-Driven Orders System - PRODUCTION READY
 
 A robust, scalable event-driven order processing system built with Node.js, Redis Streams, and MySQL. This system demonstrates clean architecture with proper separation between API and worker services.
 
-## 🏗️ Architecture Overview
+## Architecture Overview
 
 ```
 ┌─────────────────┐    ┌──────────────┐    ┌─────────────────┐
@@ -22,7 +22,7 @@ A robust, scalable event-driven order processing system built with Node.js, Redi
 └─────────────────┘    └──────────────┘    └─────────────────┘
 ```
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 - Docker & Docker Compose
@@ -51,8 +51,6 @@ curl -X POST http://localhost:3000/orders \\
 # Get order status
 curl http://localhost:3000/orders/test-001
 
-# View metrics
-curl http://localhost:3000/metrics
 ```
 
 ## 📁 Project Structure
