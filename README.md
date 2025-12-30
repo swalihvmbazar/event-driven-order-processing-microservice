@@ -82,7 +82,7 @@ event-driven-orders/
 └── README.md                  # This file
 ```
 
-## 🔗 API Endpoints
+## API Endpoints
 
 ### Order Management
 - `POST /orders` - Create new order
@@ -162,30 +162,7 @@ DB_NAME=orders_db
 }
 ```
 
-### Metrics Response
-```json
-{
-  "timestamp": "2025-12-30T10:00:00Z",
-  "uptime": 3600,
-  "memory": { "rss": 50331648, "heapUsed": 20971520 },
-  "services": {
-    "redis": {
-      "status": "connected",
-      "total_commands_processed": 1000,
-      "instantaneous_ops_per_sec": 10
-    },
-    "database": {
-      "status": "connected",
-      "stats": {
-        "total_orders": 500,
-        "completed_orders": 485,
-        "processing_orders": 15,
-        "total_revenue": 50000.00
-      }
-    }
-  }
-}
-```
+
 
 ## Security Features
 
@@ -197,30 +174,6 @@ DB_NAME=orders_db
 
 ## Production Readiness
 
-### Deployment
-- Multi-stage Docker builds for minimal attack surface
-- Health checks for orchestration platforms
-- Graceful shutdown for zero-downtime deployments
-- Environment-based configuration
-
-### Scaling
-- Stateless services for horizontal scaling
-- Database connection pooling
-- Redis clustering support
-- Load balancer ready endpoints
-
-### Monitoring
-- Structured logging with correlation IDs
-- Application metrics endpoint
-- Database performance metrics
-- Error tracking with unique identifiers
-
-## Troubleshooting
-
-### Common Issues
-1. **Connection errors**: Check health endpoint for service status
-2. **Processing delays**: Monitor metrics endpoint for queue depth
-3. **Memory issues**: Check metrics for memory usage trends
 
 ### Logs
 ```bash
