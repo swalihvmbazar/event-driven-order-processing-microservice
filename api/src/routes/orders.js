@@ -12,7 +12,7 @@ router.post('/', async (req, res) => {
   try {
     const { order_id, amount } = req.body;
 
-    // Comprehensive input validation
+    // input validation
     if (!order_id || !amount) {
       return res.status(400).json({ 
         error: 'Missing required fields: order_id and amount' 
