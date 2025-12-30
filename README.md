@@ -2,25 +2,6 @@
 
 A robust, scalable event-driven order processing system built with Node.js, Redis Streams, and MySQL. This system demonstrates clean architecture with proper separation between API and worker services.
 
-## Architecture Overview
-
-```
-┌─────────────────┐    ┌──────────────┐    ┌─────────────────┐
-│                 │    │              │    │                 │
-│   API Service   │───▶│ Redis Streams│───▶│  Worker Service │
-│   (Express.js)  │    │   (Queue)    │    │   (Processor)   │
-│                 │    │              │    │                 │
-└─────────────────┘    └──────────────┘    └─────────────────┘
-         │                      │                      │
-         │                      │                      │
-         ▼                      ▼                      ▼
-┌─────────────────┐    ┌──────────────┐    ┌─────────────────┐
-│                 │    │              │    │                 │
-│ Redis Cache     │    │    MySQL     │◀───│    Database     │
-│ (Fast Access)   │    │  (Persistent)│    │   Operations    │
-│                 │    │              │    │                 │
-└─────────────────┘    └──────────────┘    └─────────────────┘
-```
 
 ## Quick Start
 
