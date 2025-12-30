@@ -10,7 +10,7 @@ const router = express.Router();
  */
 router.post('/', async (req, res) => {
   try {
-    const { order_id, amount, customer_id, description } = req.body;
+    const { order_id, amount } = req.body;
 
     // Comprehensive input validation
     if (!order_id || !amount) {
@@ -63,8 +63,6 @@ router.post('/', async (req, res) => {
     const messageData = {
       order_id,
       amount: numericAmount,
-      customer_id: customer_id || null,
-      description: description || null,
       created_at: new Date().toISOString(),
       request_ip: req.ip || req.connection.remoteAddress
     };

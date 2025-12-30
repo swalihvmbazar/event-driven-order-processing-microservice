@@ -21,7 +21,7 @@ function gracefulShutdown() {
         await redis.disconnect();
         console.log('✓ Redis connection closed');
       } catch (err) {
-        console.error('❌ Error closing Redis:', err);
+        console.error('Error closing Redis:', err);
       }
       
       try {
@@ -29,7 +29,7 @@ function gracefulShutdown() {
         await db.end();
         console.log('✓ Database connection closed');
       } catch (err) {
-        console.error('❌ Error closing database:', err);
+        console.error('Error closing database:', err);
       }
       
       console.log('✓ Graceful shutdown complete');
@@ -53,7 +53,7 @@ async function validateConnections() {
     
     return true;
   } catch (error) {
-    console.error('❌ Connection validation failed:', error.message);
+    console.error('Connection validation failed:', error.message);
     throw error;
   }
 }
@@ -92,23 +92,23 @@ async function processOrders() {
                 data[fields[i]] = fields[i + 1];
               }
 
-              const { order_id, amount, customer_id, description, created_at } = data;
+              const { order_id, amount, created_at } = data;
               
               if (!order_id || !amount) {
-                console.error(`❌ Invalid message data: ${JSON.stringify(data)}`);
+                console.error(`Invalid message data: ${JSON.stringify(data)}`);
                 continue;
               }
               
               const amountNum = Number(amount);
               if (!Number.isFinite(amountNum) || amountNum <= 0) {
-                console.error(`❌ Invalid amount for order ${order_id}: ${amount}`);
+                console.error(`Invalid amount for order ${order_id}: ${amount}`);
                 continue;
               }
               
               const tax = Math.round(amountNum * 0.18 * 10000) / 10000; // Round to 4 decimal places
               const total = Math.round((amountNum + tax) * 10000) / 10000;
 
-              console.log(`📊 Processing order ${order_id}: amount=$${amountNum}, tax=$${tax}, total=$${total}`);
+              console.log(`Processing order ${order_id}: amount=$${amountNum}, tax=$${tax}, total=$${total}`);
 
               // Save to database with status tracking
               await db.query(
@@ -131,8 +131,6 @@ async function processOrders() {
                 tax,
                 total,
                 status: 'completed',
-                customer_id: customer_id || null,
-                description: description || null,
                 created_at: created_at || new Date().toISOString(),
                 processed_at: new Date().toISOString(),
                 updated_at: new Date().toISOString()
@@ -146,7 +144,7 @@ async function processOrders() {
               consecutiveErrors = 0;
               
             } catch (processingError) {
-              console.error(`❌ Error processing message ${messageId}:`, {
+              console.error(`Error processing message ${messageId}:`, {
                 error: processingError.message,
                 stack: processingError.stack,
                 data: data
@@ -156,13 +154,13 @@ async function processOrders() {
         }
       } catch (err) {
         consecutiveErrors++;
-        console.error(`❌ Error in message processing loop (${consecutiveErrors}/${maxConsecutiveErrors}):`, {
+        console.error(`Error in message processing loop (${consecutiveErrors}/${maxConsecutiveErrors}):`, {
           error: err.message,
           stack: err.stack
         });
         
         if (consecutiveErrors >= maxConsecutiveErrors) {
-          console.error('❌ Too many consecutive errors, restarting worker...');
+          console.error('Too many consecutive errors, restarting worker...');
           throw err;
         }
         
@@ -173,7 +171,7 @@ async function processOrders() {
       }
     }
   } catch (err) {
-    console.error('❌ Fatal error in worker:', err);
+    console.error('Fatal error in worker:', err);
     
     if (!isShuttingDown) {
       console.log('♻️ Attempting to restart in 5 seconds...');
@@ -195,7 +193,7 @@ async function initializeWorker() {
     console.log('🔄 Starting order processing...');
     await processOrders();
   } catch (error) {
-    console.error('❌ Failed to initialize worker:', error);
+    console.error('Failed to initialize worker:', error);
     process.exit(1);
   }
 }
