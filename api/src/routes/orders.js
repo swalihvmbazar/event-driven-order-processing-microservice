@@ -119,7 +119,7 @@ router.get('/:order_id', async (req, res) => {
       });
     }
 
-    console.log(`🔍 Retrieving order: ${order_id}`);
+    console.log(`Retrieving order: ${order_id}`);
 
     // 1. Check Redis cache first (with error handling)
     let cached;
@@ -179,13 +179,13 @@ router.get('/:order_id', async (req, res) => {
     try {
       const cacheData = JSON.stringify(enrichedOrder);
       await redis.setex(`order:${order_id}`, 3600, cacheData); // 1 hour cache
-      console.log(`🟡 Order ${order_id} cached for future requests`);
+      console.log(`Order ${order_id} cached for future requests`);
     } catch (cacheError) {
-      console.warn(`⚠️ Failed to cache order ${order_id}:`, cacheError.message);
+      console.warn(`Failed to cache order ${order_id}:`, cacheError.message);
       // Don't fail the request if caching fails
     }
     
-    console.log(`🔵 Order ${order_id} served from database`);
+    console.log(`Order ${order_id} served from database`);
     res.json(enrichedOrder);
   } catch (error) {
     console.error(`Error retrieving order ${req.params.order_id}:`, {
