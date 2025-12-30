@@ -1,7 +1,7 @@
 const redis = require('./services/redis');
 const db = require('./services/db');
 
-console.log('🚀 Starting worker service...');
+console.log('Starting worker service...');
 
 // Graceful shutdown handling
 let isShuttingDown = false;
@@ -13,26 +13,26 @@ function gracefulShutdown() {
     process.on(signal, async () => {
       if (isShuttingDown) return;
       
-      console.log(`🚨 Received ${signal}, starting graceful shutdown...`);
+      console.log(`Received ${signal}, starting graceful shutdown...`);
       isShuttingDown = true;
       
       try {
-        console.log('💾 Closing Redis connection...');
+        console.log('Closing Redis connection...');
         await redis.disconnect();
-        console.log('✓ Redis connection closed');
+        console.log('Redis connection closed');
       } catch (err) {
         console.error('Error closing Redis:', err);
       }
       
       try {
-        console.log('💾 Closing database connection...');
+        console.log('Closing database connection...');
         await db.end();
-        console.log('✓ Database connection closed');
+        console.log('Database connection closed');
       } catch (err) {
         console.error('Error closing database:', err);
       }
       
-      console.log('✓ Graceful shutdown complete');
+      console.log('Graceful shutdown complete');
       process.exit(0);
     });
   });
@@ -41,15 +41,15 @@ function gracefulShutdown() {
 // Connection validation
 async function validateConnections() {
   try {
-    console.log('🔍 Validating service connections...');
+    console.log('Validating service connections...');
     
     // Test Redis connection
     await redis.ping();
-    console.log('✓ Worker connected to Redis');
+    console.log('Worker connected to Redis');
     
     // Test database connection
     await db.query('SELECT 1');
-    console.log('✓ Worker connected to database');
+    console.log('Worker connected to database');
     
     return true;
   } catch (error) {
@@ -76,14 +76,14 @@ async function processOrders() {
           continue;
         }
 
-        for (const [streamName, messages] of results) {
+        for (const [messages] of results) {
           for (const [messageId, fields] of messages) {
             if (isShuttingDown) {
-              console.log('⚠️ Shutdown requested, stopping message processing');
+              console.log('Shutdown requested, stopping message processing');
               return;
             }
             
-            console.log(`📦 Processing message: ${messageId}`);
+            console.log(`Processing message: ${messageId}`);
             
             try {
               // Convert Redis fields array to object
@@ -138,7 +138,7 @@ async function processOrders() {
               
               await redis.setex(`order:${order_id}`, 3600, JSON.stringify(orderData));
               
-              console.log(`✓ Order ${order_id} processed successfully`);
+              console.log(`Order ${order_id} processed successfully`);
               
               // Reset error counter on successful processing
               consecutiveErrors = 0;
@@ -166,7 +166,7 @@ async function processOrders() {
         
         // Exponential backoff
         const delay = Math.min(1000 * Math.pow(2, consecutiveErrors - 1), 30000);
-        console.log(`⏳ Waiting ${delay}ms before retry...`);
+        console.log(`Waiting ${delay}ms before retry...`);
         await new Promise(resolve => setTimeout(resolve, delay));
       }
     }
@@ -174,7 +174,7 @@ async function processOrders() {
     console.error('Fatal error in worker:', err);
     
     if (!isShuttingDown) {
-      console.log('♻️ Attempting to restart in 5 seconds...');
+      console.log('Attempting to restart in 5 seconds...');
       setTimeout(() => {
         if (!isShuttingDown) {
           processOrders(); // Restart processing
@@ -190,7 +190,7 @@ async function initializeWorker() {
     await validateConnections();
     gracefulShutdown(); // Setup shutdown handlers
     
-    console.log('🔄 Starting order processing...');
+    console.log('Starting order processing...');
     await processOrders();
   } catch (error) {
     console.error('Failed to initialize worker:', error);
